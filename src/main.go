@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/shirou/gopsutil/process"
@@ -29,15 +30,12 @@ func main() {
 	go func() {
 		for {
 			select {
-			case event, ok := <-watcher.Events:
-				if !ok {
-					return
+			case event := <-watcher.Events:
+				if !isValidEvent(event) {
+					continue
 				}
 				log.Println("event:", event)
-				if event.Has(fsnotify.Write) {
-					log.Println("modified file:", event.Name)
-					KillProcess(os.Getenv(processName))
-				}
+				KillProcess(os.Getenv(processName))
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
@@ -79,4 +77,14 @@ func isEnvExist(key string) bool {
 		return true
 	}
 	return false
+}
+
+func isValidEvent(event fsnotify.Event) bool {
+	if event.Op&fsnotify.Create != fsnotify.Create {
+		return false
+	}
+	if filepath.Base(event.Name) != "..data" {
+		return false
+	}
+	return true
 }

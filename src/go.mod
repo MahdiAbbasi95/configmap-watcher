@@ -1,4 +1,4 @@
-module directory-watcher
+module configmap-watcher
 
 go 1.19
 
