@@ -1,4 +1,4 @@
-# directory-watcher
+# Configmap Watcher
 This application provides a kubernetes configmap watcher.
 After any changes on files in a directory or a single file in a directory which is mounted throughout a configmap, it will send a SIGKILL to a process which you want.
 It is helpful for platforms which need to restart a container after changing the configmap and also if you don't want to use services such as configmap reloader which work by rollout strategy.
