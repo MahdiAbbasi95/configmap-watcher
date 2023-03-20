@@ -18,5 +18,5 @@ shareProcessNamespace: true
 ## Docker image
 You can access to the image from dockerhub:
 ```
-docker push mahdiabbasi/configmap-watcher:v1
+docker pull mahdiabbasi/configmap-watcher:v1
 ```
